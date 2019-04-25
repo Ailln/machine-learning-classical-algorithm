@@ -1,7 +1,8 @@
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from collections import defaultdict
 
 
 def read_data(file_path):
@@ -37,17 +38,22 @@ def knn(test_data, input_data, label_data, k):
 
 
 def run():
-    data_path = "../dataset/iris.csv"
+    data_path = "./dataset/iris.csv"
     origin_data, origin_label = read_data(data_path)
-    train_data, test_data, train_label, test_label = train_test_split(origin_data, origin_label)
-    k = 3
-    i = 0
-    for test_item, label_item in zip(test_data, test_label):
-        pred = knn(test_item, train_data, train_label, k)
-        if pred != label_item:
-            i += 1
+    train_data, test_data, train_label, test_label = train_test_split(
+        origin_data, origin_label, random_state=10)
 
-    print(1-(i/len(test_label)))
+    k_list = [1, 2, 3, 4, 5]
+
+    for k in k_list:
+        i = 0
+        for test_item, label_item in zip(test_data, test_label):
+            pred = knn(test_item, train_data, train_label, k)
+            if pred != label_item:
+                i += 1
+
+        acc = round(1-(i/len(test_label)), 2)
+        print(f"k: {k}, acc: {acc}")
 
 
 if __name__ == '__main__':

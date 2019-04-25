@@ -105,3 +105,10 @@ venv.bak/
 
 # pycharm
 .idea/
+
+# jupyter
+.ipynb_checkpoints/
+
+# other
+LR/
+util/
