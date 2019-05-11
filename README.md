@@ -1,6 +1,6 @@
 # machine-learning-classical-algorithm
 
-🧠 十大机器学习经典算法
+🧠 机器学习经典算法
 
 > 「纸上得来终觉，绝知此事要躬行」
 
@@ -37,6 +37,22 @@ pip install -r requirements.txt
 ```bash
 python -m KNN.knn
 ```
+
+### 2. LR
+
+`线性回归` 是一种用来确定一个或多个自变量和因变量之间关系的回归分析方法。
+
+```bash
+# 最小二乘法
+python -m LR.least_squares
+
+# 梯度下降法
+python -m LR.gradient_descent
+```
+
+![](./src/pokemon-gradient-descent.gif)
+
+参考文章：[预测「宝可梦」升级后的战斗力](https://www.v2ai.cn/ml/2018/08/31/ML-6.html)
 
 ## 4 License
 

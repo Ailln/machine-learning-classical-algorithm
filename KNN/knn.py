@@ -4,21 +4,18 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-
-def read_data(file_path):
-    df_iris = pd.read_csv(file_path)
-    data_list = df_iris.values
-    inputs = data_list[:, :4]
-    labels = data_list[:, -1]
-    return inputs, labels
+from utils import data_utils
 
 
-def knn(test_data, input_data, label_data, k):
+def knn(test_data, df_train, k):
     dis_class_list = []
-    for data, label in zip(input_data, label_data):
+    for _, train_item in df_train.iterrows():
+        data = train_item.values[:4]
+        label = train_item["species"]
         dis = np.sqrt(np.sum(np.square(data - test_data)))
         dis_class_list.append([dis, label])
     sort_dis_class_list = sorted(dis_class_list, key=lambda x: x[0])
+
     k_class_dict = defaultdict(int)
     for dis_class in sort_dis_class_list[:k]:
         class_name = dis_class[1]
@@ -26,34 +23,28 @@ def knn(test_data, input_data, label_data, k):
             k_class_dict[class_name] += 1
         else:
             k_class_dict[class_name] = 1
-    max_num = 0
-    pred = ""
 
-    for key, value in k_class_dict.items():
-        if value >= max_num:
-            max_num = value
-            pred = key
-
+    pred = max(k_class_dict, key=k_class_dict.get)
     return pred
 
 
 def run():
-    data_path = "./dataset/iris.csv"
-    origin_data, origin_label = read_data(data_path)
-    train_data, test_data, train_label, test_label = train_test_split(
-        origin_data, origin_label, random_state=10)
+    df_data = data_utils.read_data("iris")
+    df_train, df_test = train_test_split(df_data)
 
-    k_list = [1, 2, 3, 4, 5]
+    k_list = [i+1 for i in range(5)]
 
     for k in k_list:
         i = 0
-        for test_item, label_item in zip(test_data, test_label):
-            pred = knn(test_item, train_data, train_label, k)
-            if pred != label_item:
+        for _, test_item in df_test.iterrows():
+            test_data = test_item.values[:4]
+            test_label = test_item["species"]
+            pred = knn(test_data, df_train, k)
+            if pred == test_label:
                 i += 1
 
-        acc = round(1-(i/len(test_label)), 2)
-        print(f"k: {k}, acc: {acc}")
+        acc = round(i/len(df_test), 2)
+        print(f"k: {k}, accuracy: {acc}")
 
 
 if __name__ == '__main__':

@@ -108,7 +108,3 @@ venv.bak/
 
 # jupyter
 .ipynb_checkpoints/
-
-# other
-LR/
-util/
