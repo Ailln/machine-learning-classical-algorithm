@@ -20,7 +20,7 @@
 
 ```bash
 # 克隆代码
-git clone https://github.com/HaveTwoBrush/machine-learning-classical-algorithm.git
+git clone https://github.com/Ailln/machine-learning-classical-algorithm.git
 
 cd machine-learning-classical-algorithm
 
